@@ -1,0 +1,23 @@
+<%- include('partials/header.ejs') %>
+<%- include('partials/homeNavBar.ejs') %>
+<body>
+    <div class="container">
+        <div class="card mt-5">
+            <div class="card-header">
+                <h4>Login</h4>
+            </div>
+            <div class="card-body">
+                <% if(error) { %>
+                    <div class="alert alert-danger" role="alert">E-mail ou Senha incorretos</div>
+                <% } %>
+                <form method="POST" action="/authenticate">
+                    <input required class="form-control mb-3" type="email" name="email" placeholder="Digite o seu email">
+                    <input required class="form-control mb-3" type="password" name="password" placeholder="Digite a sua senha">
+                    <button type="submit" class="btn btn-success btn-block">Logar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+<%- include('partials/footer.ejs') %>

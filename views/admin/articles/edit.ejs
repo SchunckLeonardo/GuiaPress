@@ -1,0 +1,64 @@
+<%- include('../../partials/header.ejs') %>
+<style>
+    textarea.artigoBody {
+        height: 500px;
+    }
+    select:invalid {
+        color: gray;
+    }
+</style>
+<body>
+    <%- include('../../partials/navbar.ejs') %>
+    <div class="container">
+        <div class="card mt-3">
+            <div class="card-header">
+                <h2 class="mt-3 mb-3">Edição de artigo</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/articles/update">
+                    <input required class="form-control mb-3" type="text" name="title" value="<%= article.title %>">
+                    <select name="category" required class="form-control mb-3">
+                        <option value="" disabled selected>Categoria</option>
+                        <% categories.forEach(category => { %>
+                            <% if(category.id == article.categoryId) { %>
+                                <option value=" <%= category.id %> " selected><%= category.title %></option>
+                            <% } else { %>
+                                <option value=" <%= category.id %> "><%= category.title %></option>
+                            <% } %>
+                        <% }) %>
+                    </select>
+                    <textarea id="article" class="form-control artigoBody" name="bodyText"><%= article.body %></textarea>
+                    <input type="hidden" name="id" value="<%= article.id %>">
+                    <button class="btn btn-success mt-3">Editar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="/tinymce/tinymce.min.js"></script>
+    <script>
+        tinymce.init({
+            selector: '#article',
+            language: 'pt_BR',
+            plugins: [
+              'advlist',
+              'autolink',
+              'link',
+              'image',
+              'lists',
+              'print',
+              'preview',
+              'searchreplace',
+              'wordcount',
+              'fullscreen',
+              'insertdatetime',
+              'media',
+              'save',
+              'table',
+              'emoticons'
+            ]
+          });
+          
+    </script>
+</body>
+<%- include('../../partials/footer.ejs') %>

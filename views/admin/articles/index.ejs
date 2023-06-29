@@ -1,0 +1,119 @@
+<%- include('../../partials/header.ejs') %>
+<style>
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    button.btn {
+        margin-top: 5px;
+    }
+
+    .box-delete {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        padding: 5%;
+        border-radius: 15px;
+        z-index: 100;
+        display: none;
+        transition: all .3s;
+    }
+
+    .box-delete button {
+        width: 48%;
+    }
+
+    .filter-black {
+        width: 100%;
+        height: 100vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.3);
+        transition: all .1s;
+        display: none;
+    }
+
+</style>
+<body>
+    <%- include('../../partials/navbar.ejs') %>
+    
+    <div class="container">
+
+        <h2 class="mt-5">Artigos</h2>
+        <hr>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Título</th>
+                    <th>Slug</th>
+                    <th>Categoria</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% articles.forEach(article => { %>
+                        <tr>
+                            <td> <%= article.id %></td>
+                            <td> <%= article.title %></td>
+                            <td> <%= article.slug %></td>
+                            <td> <%= article.category.title  %></td>
+                            <td>
+                                <a href="/admin/articles/edit/<%= article.id %>" class="btn btn-warning">Editar</a>
+                                <form method="POST" action="/articles/delete" onsubmit="confirmarDelecao(event, this)" style="display: inline">
+                                    <input type="hidden" name="id" value="<%= article.id %>">
+                                    <button class="btn btn-outline-danger deleteArticle">Deletar</button>
+                                </form>
+                            </td>
+                        </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        <div class="filter-black">
+            <div class="box-delete">
+                <h3 class="mb-3">Deseja excluir?</h3>
+                
+                    <button class="btn btn-outline-success yesArticle">Sim</button>
+                
+                <button class="btn btn-danger no">Não</button>
+            </div>
+        </div>
+        <a href="/admin/articles/new" class="btn btn-success mb-5">Criar novo artigo</a>
+    </div>
+
+    <script>
+
+        let boxDelete = document.querySelector('.box-delete')
+        let yesButton = document.querySelector('.yesArticle')
+        let noButton = document.querySelector('.no')
+        let filterBlack = document.querySelector('.filter-black')
+        let deleteButton = document.querySelectorAll('.deleteArticle')
+        
+        function confirmarDelecao(e, form) {
+            e.preventDefault()
+
+            boxDelete.style.display = 'block'
+            filterBlack.style.display = 'block'
+
+            yesButton.addEventListener('click', () =>  {
+                form.submit()
+                boxDelete.style.display = 'none'
+                filterBlack.style.display = 'none'
+            })
+        }
+
+        noButton.addEventListener('click', e => {
+            boxDelete.style.display = 'none'
+            filterBlack.style.display = 'none'
+        })
+
+    </script>
+
+</body>
+<%- include('../../partials/footer.ejs') %>

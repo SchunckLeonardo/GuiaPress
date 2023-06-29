@@ -1,0 +1,59 @@
+<%- include('../../partials/header.ejs') %>
+<style>
+    textarea.artigoBody {
+        height: 500px;
+    }
+    select:invalid {
+        color: gray;
+    }
+</style>
+<body>
+    <%- include('../../partials/navbar.ejs') %>
+    <div class="container">
+        <div class="card mt-3">
+            <div class="card-header">
+                <h2 class="mt-3 mb-3">Novo artigo</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/articles/save">
+                    <input required class="form-control mb-3" type="text" name="title" placeholder="Defina o título do artigo">
+                    <select name="category" required class="form-control mb-3">
+                        <option value="" disabled selected>Categoria</option>
+                        <% categories.forEach(category => { %>
+                            <option value=" <%= category.id %> "><%= category.title %></option>
+                        <% }) %>
+                    </select>
+                    <textarea id="article" class="form-control artigoBody" name="bodyText" placeholder="Escreva o artigo aqui!"></textarea>
+                    <button class="btn btn-success mt-3">Cadastrar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="/tinymce/tinymce.min.js"></script>
+    <script>
+        tinymce.init({
+            selector: '#article',
+            language: 'pt_BR',
+            plugins: [
+              'advlist',
+              'autolink',
+              'link',
+              'image',
+              'lists',
+              'print',
+              'preview',
+              'searchreplace',
+              'wordcount',
+              'fullscreen',
+              'insertdatetime',
+              'media',
+              'save',
+              'table',
+              'emoticons'
+            ]
+          });
+          
+    </script>
+</body>
+<%- include('../../partials/footer.ejs') %>
